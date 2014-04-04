@@ -40,6 +40,7 @@ input_files.each do |files|
 	Dir[files].each do |file|
 		name = File.basename(file)
 		temp_file = File.join(Dir.tmpdir, name + ".strings")
+    FileUtils.touch(temp_file)
 
 		if File.exists?(temp_file)  then
 			# Extract labels
