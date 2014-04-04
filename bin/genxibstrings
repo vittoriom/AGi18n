@@ -50,8 +50,8 @@ input_files.each do |files|
 			File.open(temp_file, 'rb:UTF-16LE').each do |line|
 				md = LABEL_REGEXP.match(line)  
 				if md then
-					key = md.captures		
-          unless md.to_s.include? "accessibilityLabel".encode("UTF-16LE")
+					key = md.captures	
+          if !(md.to_s.include? "accessibilityLabel".encode("UTF-16LE")) and !(key[0].start_with?("_".encode("UTF-16LE")))
             labels[key] = Array.new() if labels[key].nil?
 					  labels[key].push(name)
           end
