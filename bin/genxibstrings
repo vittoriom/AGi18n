@@ -26,7 +26,7 @@ loop {
 }
 
 output = File.join(output, 'Localizable.strings')
-input_files.push('**/*.{xib,nib,storyboard}') unless input_files.length > 0
+input_files.push('**/*.{storyboard}') unless input_files.length > 0
 
 puts "Output file: #{output}"
 puts "Input files: #{input_files}"
@@ -49,10 +49,12 @@ input_files.each do |files|
 			# Parse all the labels from the xib
 			File.open(temp_file, 'rb:UTF-16LE').each do |line|
 				md = LABEL_REGEXP.match(line)  
-				if md  then
-					key = md.captures			
-					labels[key] = Array.new() if labels[key].nil?
-					labels[key].push(name)
+				if md then
+					key = md.captures		
+          unless md.to_s.include? "accessibilityLabel".encode("UTF-16LE")
+            labels[key] = Array.new() if labels[key].nil?
+					  labels[key].push(name)
+          end
 				end
 			end
 		end  	
